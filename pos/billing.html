@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Ordering POS</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            padding: 15px;
+            color: white;
+        }
+        .sidebar h2 {
+            text-align: center;
+        }
+        .menu ul {
+            list-style: none;
+            padding: 0;
+        }
+        .menu li {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #34495e;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+        .banner {
+            background: #ffbe76;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+        }
+        .items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .item-card {
+            width: 150px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+            cursor: pointer;
+            background: white;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        .item-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .order-summary {
+            width: 250px;
+            background: white;
+            padding: 15px;
+            border-left: 1px solid #ddd;
+        }
+        .checkout {
+            width: 100%;
+            padding: 10px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+
+        .sidebar {
+    width: 250px;
+    background: #1e272e;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.menu li {
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    background: #34495e;
+    margin: 5px 0;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.menu li:hover {
+    background: #e74c3c;
+    transform: scale(1.05);
+}
+
+.sidebar {
+    width: 250px;
+    background: #1e272e;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.menu li {
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    background: #34495e;
+    margin: 5px 0;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out, transform 0.2s, box-shadow 0.2s;
+}
+
+.menu li:hover {
+    background: #e74c3c;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.5);
+}
+
+/* Highlight the active menu item */
+.menu li.active {
+    background: #e74c3c;
+    font-weight: bold;
+    border-left: 5px solid #fff;
+}
+/* Sidebar container */
+.sidebar {
+    width: 250px;
+    background: #1e272e;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar menu */
+.menu ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+/* Sidebar menu items as buttons */
+.menu li {
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #34495e;
+    color: white;
+    margin: 8px 0;
+    border-radius: 6px;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    display: block;
+    border: none;
+    text-transform: uppercase;
+}
+
+/* Hover effect */
+.menu li:hover {
+    background: #e74c3c;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.5);
+}
+
+/* Active (highlighted) menu item */
+.menu li.active {
+    background: #e74c3c;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
+    border: 2px solid white;
+}
+.sidebar {
+    width: 250px;
+    background: #1e272e;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.menu li {
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #34495e;
+    color: white;
+    margin: 8px 0;
+    border-radius: 6px;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    display: block; /* Ensure full width */
+    text-transform: uppercase;
+}
+
+/* Hover effect */
+.menu li:hover {
+    background: #e74c3c;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.5);
+}
+
+/* Active (highlighted) menu item */
+.menu li.active {
+    background: #e74c3c;
+    font-weight: bold;
+    border-left: 5px solid white;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>🍔 KFC POS</h2>
+            <nav class="menu">
+                <ul id="categories"></ul>
+            </nav>
+        </aside>
+        <main class="content">
+            <section class="banner">
+                <h2>Fast Food<br>Ready in <span>30min.</span></h2>
+            </section>
+            <section class="items" id="items"></section>
+        </main>
+        <aside class="order-summary">
+            <h2>🛍️ My Order</h2>
+            <table class="bill-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                        
+                    </tr>
+                </thead>
+                <tbody id="bill-items"></tbody>
+            </table>
+            <h3>Total: ₹<span id="totalAmount">0</span></h3>
+            <button class="checkout" id="checkoutBtn">Checkout</button>
+        </aside>
+    </div>
+    
+    <script src="billing.js"></script>
+    <script>
+        let totalAmount = 0;
+        let cart = [];
+        
+        $(document).ready(function() {
+            const categories = ["Burgers", "Fries", "Drinks", "Desserts", "Grills", "Offers"];
+            const items = [
+                {name: "Cheeseburger", price: 99},
+                {name: "Chicken Wings", price: 149},
+                {name: "French Fries", price: 69},
+                {name: "Coke", price: 49}
+            ];
+            
+            categories.forEach(cat => {
+                $("#categories").append(`<li>${cat}</li>`);
+            });
+            
+            items.forEach(item => {
+                $("#items").append(`
+                    <div class="item-card" onclick="addToBill('${item.name}', ${item.price})">
+                        <h4>${item.name}</h4>
+                        <p>₹${item.price}</p>
+                        <button>Add</button>
+                    </div>
+                `);
+            });
+        });
+        
+        function addToBill(name, price) {
+            let found = cart.find(item => item.name === name);
+            if (found) {
+                found.qty += 1;
+            } else {
+                cart.push({ name, price, qty: 1 });
+            }
+            updateBill();
+        }
+        
+        function updateBill() {
+            $("#bill-items").html("");
+            totalAmount = 0;
+            cart.forEach((item, index) => {
+                let total = item.qty * item.price;
+                totalAmount += total;
+                $("#bill-items").append(`
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>₹${item.price}</td>
+                        <td>${item.qty}</td>
+                        <td>₹${total}</td>
+                        <td><button class="remove-btn" onclick="removeItem(${index})">X</button></td>
+                    </tr>
+                `);
+            });
+            $("#totalAmount").text(totalAmount);
+        }
+        
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateBill();
+        }
+        
+        $("#checkoutBtn").click(function() {
+            var options = {
+                "key": "rzp_test_your_key_here", 
+                "amount": totalAmount * 100,
+                "currency": "INR",
+                "name": "KFC POS",
+                "description": "Food Order Payment",
+                "handler": function (response) {
+                    alert("Payment successful: " + response.razorpay_payment_id);
+                    window.location.reload();
+                },
+                "theme": { "color": "#D0021B" }
+            };
+            var rzp = new Razorpay(options);
+            rzp.open();
+        });
+        $(document).ready(function() {
+    const categories = ["Burgers", "Fries", "Drinks", "Desserts", "Grills", "Offers"];
+    
+    categories.forEach(cat => {
+        $("#categories").append(`<li>${cat}</li>`);
+    });
+
+    // Add click event to dynamically added elements
+    $(document).on("click", ".menu li", function() {
+        $(".menu li").removeClass("active"); // Remove active from all
+        $(this).addClass("active"); // Highlight clicked
+    });
+});
+
+        
+    </script>
+</body>
+</html>
